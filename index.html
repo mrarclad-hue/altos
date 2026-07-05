@@ -96,7 +96,7 @@
 
                 <div class="card-estudos">
                     <h3>✍️ Registro de Execução Realizada</h3>
-                    <form id="form-registro-dia" class="estilo-form">
+                    <form id="form-registro-dia" class="estilo-form" onsubmit="return false;">
                         <label><strong>Horas Dedicadas Hoje:</strong></label>
                         <input type="number" id="registro-horas" step="0.1" min="0" max="24" placeholder="Ex: 3.5" required>
                         
@@ -115,7 +115,7 @@
             <h2>📓 Caderno de Erros & Desempenho por Disciplina</h2>
             <p>Monitore suas estatísticas acumuladas e as pegadinhas identificadas.</p>
 
-            <form id="form-erro" class="estilo-form">
+            <form id="form-erro" class="estilo-form" onsubmit="return false;">
                 <label for="erro-disciplina"><strong>Disciplina:</strong></label>
                 <select id="erro-disciplina" required>
                     <option value="Matemática">📐 Matemática (Específica)</option>
