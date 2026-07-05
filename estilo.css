@@ -1,0 +1,434 @@
+/* ==========================================================================
+   RESET E VARIÁVEIS DE DESIGN (Foco Altos-PI)
+   ========================================================================== */
+:root {
+    --primary: #0288d1;
+    --primary-hover: #01579b;
+    --secondary: #263238;
+    --background: #f4f6f8;
+    --card-bg: #ffffff;
+    --text: #333333;
+    --success: #2e7d32;
+    --danger: #d32f2f;
+    --border: #cfd8dc;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text);
+    line-height: 1.6;
+    padding-bottom: 40px;
+}
+
+/* ==========================================================================
+   HEADER E ABAS DE NAVEGAÇÃO
+   ========================================================================== */
+header {
+    background: linear-gradient(135deg, var(--secondary) 0%, #102a43 100%);
+    color: white;
+    text-align: center;
+    padding: 2.5rem 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+header p {
+    color: #bcccdc;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.tab-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.tab-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 2px 8px rgba(2, 136, 209, 0.4);
+}
+
+/* ==========================================================================
+   ESTRUTURA DE CONTEÚDO E ABAS OCULTAS
+   ========================================================================== */
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.tab-content {
+    display: none; 
+}
+
+.tab-content.active-content {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   CARDS, LAYOUT E FORMULÁRIOS
+   ========================================================================== */
+.controle-cronograma {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.seletor-semana select {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    outline: none;
+    background: #fff;
+    cursor: pointer;
+}
+
+.fase-alerta {
+    background-color: #e3f2fd;
+    border-left: 5px solid var(--primary);
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+    color: #0d47a1;
+}
+
+.grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.card-estudos {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.card-estudos h3, h2 {
+    color: var(--secondary);
+    margin-bottom: 1.5rem;
+}
+
+.estilo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.estilo-form label {
+    font-size: 0.9rem;
+    color: #4a5568;
+    margin-bottom: -4px;
+}
+
+.estilo-form input[type="text"],
+.estilo-form input[type="number"],
+.estilo-form select,
+.estilo-form textarea,
+.editor-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background: #fff;
+    color: var(--text);
+    outline: none;
+    transition: border 0.2s;
+}
+
+.estilo-form input:focus, .estilo-form select:focus, .estilo-form textarea:focus {
+    border-color: var(--primary);
+}
+
+.estilo-form textarea, .editor-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.estilo-form button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 5px;
+}
+
+.estilo-form button:hover {
+    background: var(--primary-hover);
+}
+
+/* ==========================================================================
+   CADERNO DE ERROS E MATÉRIAS
+   ========================================================================== */
+.categoria-bloco {
+    background: white;
+    border-radius: 8px;
+    padding: 0 0 15px 0;
+    margin-bottom: 25px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    overflow: hidden;
+}
+
+.categoria-header {
+    padding: 12px 20px;
+    margin-bottom: 15px;
+}
+
+.categoria-header h3 {
+    color: white !important;
+    margin: 0 !important;
+    font-size: 1.1rem;
+}
+
+.lista-itens {
+    padding: 0 20px;
+}
+
+.item-salvo {
+    position: relative;
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    border: 1px solid #edf2f7;
+}
+
+.editor-toolbar {
+    display: flex;
+    gap: 15px;
+    background: #f1f5f9;
+    padding: 10px;
+    border-radius: 6px 6px 0 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.editor-toolbar .toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+}
+.editor-toolbar select, .editor-toolbar input[type="color"] {
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+}
+.editor-textarea {
+    border-radius: 0 0 6px 6px !important;
+    overflow-y: auto;
+}
+
+.estatistica-painel {
+    background: #edf2f7;
+    margin: 10px 20px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #2d3748;
+    display: flex;
+    justify-content: space-between;
+}
+.mini-badge-questoes {
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+    color: white;
+}
+
+/* ==========================================================================
+   ABA DE MEUS PDFs E PROGRESSO DE LEITURA
+   ========================================================================== */
+.card-progresso-geral {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.barra-progresso-container {
+    margin-top: 10px;
+}
+
+.barra-progresso-bg {
+    background: #e2e8f0;
+    border-radius: 20px;
+    overflow: hidden;
+    width: 100%;
+    height: 18px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.barra-progresso-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0288d1 0%, #2ec4b6 100%);
+    width: 0%;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.grade-disciplinas-pdf {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.card-disciplina-mini {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    border-top: 4px solid var(--primary);
+}
+
+.card-disciplina-mini h4 {
+    color: var(--secondary);
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.layout-secao-pdfs {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 25px;
+}
+
+@media (max-width: 900px) {
+    .layout-secao-pdfs { grid-template-columns: 1fr; }
+}
+
+.seletor-filtro-pdf {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.pdf-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border: 1px solid #edf2f7;
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.01);
+    transition: all 0.2s;
+}
+
+.pdf-item:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.pdf-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 85%;
+}
+
+.pdf-info input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
+.pdf-texto {
+    font-size: 0.95rem;
+    color: var(--text);
+    word-break: break-word;
+}
+
+.pdf-texto.lido {
+    text-decoration: line-through;
+    color: #94a3b8;
+}
+
+.feedback-ritmo-container {
+    margin-top: 15px;
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .grid-layout { grid-template-columns: 1fr; }
+    .controle-cronograma { flex-direction: column; align-items: flex-start; }
+}
