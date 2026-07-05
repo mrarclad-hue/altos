@@ -637,23 +637,89 @@ function importarDados(event) {
     reader.onload = function(e) {
         try {
             const importado = JSON.parse(e.target.result);
+            
+            // Verificação do formato novo unificado
             if (importado.dadosLocais && importado.LISTA_PDFS) {
                 dadosLocais = importado.dadosLocais;
                 LISTA_PDFS = importado.LISTA_PDFS;
                 salvarDadosFinais();
                 carregarDadosLocaisSempre();
                 alert("Backup manual importado e processado com sucesso!");
+                return;
+            }
+            
+            // COMPATIBILIDADE AUTOMÁTICA: Detecta e converte o formato antigo do arquivo do usuário
+            if (importado.diario || importado.erros || importado.mapas || importado.pdfs) {
+                // 1. Converte e limpa o Diário/Histórico de Horas
+                let diarioConvertido = {};
+                if (importado.diario) {
+                    try {
+                        // Trata caso o diário tenha vindo como string JSON interna
+                        const objDiario = typeof importado.diario === 'string' ? JSON.parse(importado.diario) : importado.diario;
+                        Object.keys(objDiario).forEach(chave => {
+                            if (chave.match(/^\d{4}-\d{2}-\d{2}$/)) { // Filtra apenas chaves de data válidas (AAAA-MM-DD)
+                                diarioConvertido[chave] = objDiario[chave];
+                            }
+                        });
+                    } catch(errDiario) { console.log("Nota: Sem diário complexo para converter."); }
+                }
+
+                // 2. Converte Caderno de Erros
+                let errosConvertidos = [];
+                if (importado.erros) {
+                    try {
+                        errosConvertidos = typeof importado.erros === 'string' ? JSON.parse(importado.erros) : importado.erros;
+                    } catch(e) { errosConvertidos = []; }
+                }
+
+                // 3. Converte Resumos / Mapas Mentais
+                let resumosConvertidos = [];
+                if (importado.mapas) {
+                    try {
+                        resumosConvertidos = typeof importado.mapas === 'string' ? JSON.parse(importado.mapas) : importado.mapas;
+                    } catch(e) { resumosConvertidos = []; }
+                }
+
+                // 4. Mapeia os PDFs marcados como lidos
+                let pdfsLidosConvertidos = [];
+                if (importado.pdfs) {
+                    try {
+                        const listaPdfsAntiga = typeof importado.pdfs === 'string' ? JSON.parse(importado.pdfs) : importado.pdfs;
+                        if (Array.isArray(listaPdfsAntiga)) {
+                            listaPdfsAntiga.forEach(p => {
+                                if (p.lido && p.id) pdfsLidosConvertidos.push(p.id);
+                            });
+                        }
+                    } catch(e) { console.log("Nota: Sem PDFs para converter."); }
+                }
+
+                // Mescla tudo no formato estrutural novo
+                dadosLocais = {
+                    questoesDia: {}, // Inicializa limpo para novos registros do painel
+                    historicoHoras: diarioConvertido,
+                    cadernoErros: errosConvertidos.map(err => ({
+                        disciplina: err.disciplina || "Geral",
+                        enunciado: err.enunciado || "Sem enunciado",
+                        motivo: err.motivo || "Sem motivo registrado"
+                    })),
+                    resumos: resumosConvertidos.map(mapa => ({
+                        disciplina: mapa.disciplina || "Geral",
+                        titulo: mapa.titulo || "Sem título",
+                        conteudo: mapa.conteudo || ""
+                    })),
+                    pdfsLidos: pdfsLidosConvertidos
+                };
+
+                salvarDadosFinais();
+                carregarDadosLocaisSempre();
+                alert("🎉 Seu histórico antigo foi convertido e importado com sucesso! Tudo pronto para continuar.");
             } else {
                 alert("Formato de arquivo JSON de backup inválido.");
             }
         } catch (err) {
-            alert("Erro na leitura do arquivo JSON.");
+            alert("Erro crítico na leitura e processamento do arquivo JSON.");
+            console.error(err);
         }
     };
     reader.readAsText(arquivo);
 }
-
-// Execução imediata ao carregar página
-window.onload = function() {
-    carregarDadosLocaisSempre();
-};
